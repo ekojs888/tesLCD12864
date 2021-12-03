@@ -1,6 +1,7 @@
 
 #include <Arduino.h>
 #include <U8g2lib.h>
+#include <joyPad.h>
 
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -238,3 +239,5 @@ U8G2_ST7920_128X64_F_SW_SPI u8g2(U8G2_R0, /* clock=*/18, /* data=*/23, /* CS=*/4
 // U8G2_ST7511_AVD_320X240_F_8080 u8g2(U8G2_R0, 13, 11, 2, 3, 4, 5, 6, A4, /*enable/WR=*/ 7, /*cs=*/ 10, /*dc=*/ 9, /*reset=*/ 8); // Enable U8g2 16Bit Mode and connect RD pin with 3.3V/5V
 
 // End of constructor list
+
+joyPad Tombol;
