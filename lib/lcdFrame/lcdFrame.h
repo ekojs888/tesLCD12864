@@ -63,6 +63,14 @@ private:
     void setMenu(int hal, const modelText menu[4]);
     void setCurson(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4]);
 
+    // status
+    void setStatus(String sts);
+
+    void FrameMain();
+    void FrameSetting();
+    void FrameMenu();
+    void FrameSetATS();
+
     unsigned long prevMills;
     U8G2 ugs;
     int a = 1;
@@ -72,7 +80,32 @@ private:
     int countTxt[MAX_HAL];
     int countTxtMenu[MAX_HAL];
 
-    int kursonCount = 0;
+    int kursonCount = -1;
+
+    String Status;
+
+    void tess();
+    void setChangeValue(String val);
+};
+static const modelText menua[4] PROGMEM = {
+    {"Menu", 10, 61, 1, true, false, 1, 1, ""},
+};
+static const modelText menuUt[4] PROGMEM = {
+    {"Setting", 10, 22, 1, true, false, 1, 2, ""},
+    {"Menu Utama", 10, 35, 1, true, false, 1, 0, ""},
+};
+
+static const modelText menuSetting[4] PROGMEM = {
+    {"Pompa", 10, 22, 1, true, false, 0, 1, ""},
+    {"ATS", 10, 35, 1, true, false, 1, 3, ""},
+    {"Kembali", 10, 48, 1, true, false, 1, 1, ""},
+};
+
+static const modelText menuAts[4] PROGMEM = {
+    {"On/Off", 10, 22, 1, true, false, 2, 1, ""},
+    {"Ups/Pln", 10, 35, 1, true, false, 2, 1, ""},
+    {"Back", 10, 48, 1, true, false, 1, 2, ""},
+    // {"PLN Switch", 10, 61, 1, true, false, 2, 1, ""},
 };
 static const unsigned char logo0[] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,

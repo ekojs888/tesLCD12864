@@ -8,54 +8,107 @@ void lcdFrame::Begin()
 {
     ugs.begin();
 
-    uint8_t numy = 9;
+    FrameMain();
+    FrameMenu();
+    FrameSetting();
+    FrameSetATS();
+}
+//=============frame===========================================
 
-    setText(0, 1, 0, numy, "Menu");
-    setGrafikGaris(0, 0, 10, 128, 10);
+void lcdFrame::FrameMain()
+{
+    int idHal = 0;
+    // setText(0, 1, 0, 9, "Menu");
 
-    modelText menub[4] = {
-        {"Setting", 10, 22, 1, true, false, 1, 1, ""},
-        {"Menu Utama", 10, 35, 1, true, false, 1, 2, ""},
-        {"Kembali", 10, 48, 1, true, false, 0, 1, ""},
-    };
-    setMenu(0, menub);
+    setGrafikLogo0(idHal, 64, 0, 64, 64);
+    setGrafikGaris(idHal, 0, 10, 128, 10);
 
-    //=========halaman setting===========
-    numy = 9;
-    setText(1, 1, 0, numy, "Setting");
-    setGrafikGaris(1, 0, 10, 128, 10);
-    modelText menua[4] = {
-        {"Pompa", 10, 22, 1, true, false, 0, 1, ""},
-        {"PPM", 10, 35, 1, true, false, 0, 1, ""},
-        {"Kembali", 10, 48, 1, true, false, 1, 0, ""},
-    };
-    setMenu(1, menua);
-    // setGrafikGaris(1, 0, 20, 128, 20);
-    // setGrafikLogo0(1, 64, 0, 64, 64);
+    setMenu(idHal, menua);
+}
+void lcdFrame::FrameMenu()
+{
+    int idHal = 1;
 
-    //========halaman logo ================
-    const modelText menuc[4] = {
-        {"Kembali", 10, 48, 1, true, false, 1, 0, ""},
-    };
-    setGrafikLogo0(2, 64, 0, 64, 64);
-    setMenu(2, menuc);
+    setGrafikLogo0(idHal, 64, 0, 64, 64);
+    setText(idHal, 1, 0, 9, "Menu");
+    setGrafikGaris(idHal, 0, 10, 128, 10);
+
+    setMenu(idHal, menuUt);
+}
+void lcdFrame::FrameSetting()
+{
+    int idHal = 2;
+
+    setGrafikLogo0(idHal, 64, 0, 64, 64);
+    setText(idHal, 1, 0, 9, "Setting");
+    setGrafikGaris(idHal, 0, 10, 128, 10);
+
+    setMenu(idHal, menuSetting);
+}
+void lcdFrame::FrameSetATS()
+{
+    int idHal = 3;
+    setGrafikLogo0(idHal, 64, 0, 64, 64);
+    setText(idHal, 1, 0, 9, "Ats Switch");
+    setGrafikGaris(idHal, 0, 10, 128, 10);
+
+    setMenu(idHal, menuAts);
+}
+
+void lcdFrame::tess()
+{
+    Serial.println("hallow dari tes...");
+    setChangeValue("xxx");
+}
+//====================func==========================================
+void lcdFrame::setChangeValue(String val)
+{
+    Halaman[hal].ModelTxtMenu[kursonCount].value = val;
+}
+void lcdFrame::setStatus(String sts)
+{
+    Status = sts;
 }
 void lcdFrame::GoToPageSelect()
 {
     for (int a = 0; a < countTxtMenu[hal]; a++)
     {
-        if (Halaman[hal].ModelTxtMenu[a].ExcSts == 1 && Halaman[hal].ModelTxtMenu[a].kursonPos)
+        if (Halaman[hal].ModelTxtMenu[a].kursonPos)
         {
-            hal = Halaman[hal].ModelTxtMenu[a].halExc;
-            Serial.println(Halaman[hal].ModelTxtMenu[a].halExc);
-            break;
+            if (Halaman[hal].ModelTxtMenu[a].ExcSts == 1)
+            {
+                hal = Halaman[hal].ModelTxtMenu[a].halExc;
+                Serial.println(Halaman[hal].ModelTxtMenu[a].halExc);
+                break;
+            }
+            else if (Halaman[hal].ModelTxtMenu[a].ExcSts == 2)
+            {
+                Serial.printf("no 2 : %d \n", Halaman[hal].ModelTxtMenu[a].halExc);
+                if (Halaman[hal].ModelTxtMenu[a].halExc == 1)
+                {
+                    tess();
+                }
+                break;
+            }
         }
     }
-    kursonCount = 0;
+    kursonCount = -1;
     Serial.printf("hal: %d \n", hal);
 }
 void lcdFrame::KursonNext()
 {
+    for (int a = 0; a < countTxtMenu[hal]; a++)
+    {
+        if (Halaman[hal].ModelTxtMenu[a].kursonPos)
+        {
+            kursonCount = a;
+            break;
+        }
+    }
+    if (kursonCount < (countTxtMenu[hal] - 1))
+    {
+        kursonCount++;
+    }
     for (int a = 0; a < countTxtMenu[hal]; a++)
     {
         if (kursonCount == a)
@@ -67,14 +120,21 @@ void lcdFrame::KursonNext()
             Halaman[hal].ModelTxtMenu[a].kursonPos = false;
         }
     }
+    String myString = String(kursonCount);
+    myString = "k:" + myString + " t:" + String((countTxtMenu[hal] - 1));
+    setStatus(myString);
     Serial.printf("kursonp: %d, kursonc: %d \n", kursonCount, (countTxtMenu[hal] - 1));
-    if (kursonCount < (countTxtMenu[hal] - 1))
-    {
-        kursonCount++;
-    }
 }
 void lcdFrame::KursonPrev()
 {
+    for (int a = 0; a < countTxtMenu[hal]; a++)
+    {
+        if (Halaman[hal].ModelTxtMenu[a].kursonPos)
+        {
+            kursonCount = a;
+            break;
+        }
+    }
     if (kursonCount > 0)
     {
         kursonCount--;
@@ -265,7 +325,7 @@ void lcdFrame::Run()
                     switch (Halaman[hal].ModelTxtMenu[a].idfont)
                     {
                     case 1:
-                        ugs.setFont(u8g2_font_helvR08_tr);
+                        ugs.setFont(u8g2_font_helvR08_tf);
                         break;
 
                     default:
@@ -290,7 +350,7 @@ void lcdFrame::Run()
                 switch (Halaman[hal].ModelTxt[a].idfont)
                 {
                 case 1:
-                    ugs.setFont(u8g2_font_helvR08_tr);
+                    ugs.setFont(u8g2_font_helvR08_tf);
                     break;
 
                 default:
@@ -307,7 +367,7 @@ void lcdFrame::Run()
                 switch (Halaman[hal].ModelTxtMenu[a].idfont)
                 {
                 case 1:
-                    ugs.setFont(u8g2_font_helvR08_tr);
+                    ugs.setFont(u8g2_font_helvR08_tf);
                     break;
 
                 default:
@@ -317,6 +377,11 @@ void lcdFrame::Run()
                 ugs.setCursor(Halaman[hal].ModelTxtMenu[a].x, Halaman[hal].ModelTxtMenu[a].y);
                 ugs.print(Halaman[hal].ModelTxtMenu[a].value);
             }
+
+            // Write Status
+            ugs.setFont(u8g2_font_helvR08_tf);
+            ugs.setCursor(64, 9);
+            ugs.print(Status);
 
             ugs.sendBuffer();
         } while (ugs.nextPage());

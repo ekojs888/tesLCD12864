@@ -40,7 +40,7 @@
 
 #define PIN_BIP 10
 
-#define TOMBOL_DELAY 500
+#define TOMBOL_DELAY 300
 #define SW_DELAY 400
 
 #define BIP_ON LOW
