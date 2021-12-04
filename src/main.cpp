@@ -79,13 +79,19 @@ void loop(void)
     uint8_t t = Tombol.GetDirection();
     if (t == 1)
     {
-        Framex.Add();
+        Framex.KursonPrev();
     }
-    // else if (t == 5)
-    // {
-    //     tes--;
-    //     Framex.setPreSelect();
-    // }
+    else if (t == 5)
+    {
+        Framex.KursonNext();
+    }
+
+    if (!Tombol.GetKlick())
+    {
+        Framex.GoToPageSelect();
+        Serial.println("klik:");
+    }
+
     // char m_str[3];
     // strcpy(m_str, u8x8_u8toa(m, 2)); /* convert m to a string with two digits */
     // u8g2.firstPage();

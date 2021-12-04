@@ -9,7 +9,6 @@ void joyPad::getJoy()
 {
     jos.posx = analogRead(PIN_BTN1_X);
     jos.posy = analogRead(PIN_BTN1_Y);
-    jos.possw = digitalRead(PIN_BTN1_S);
 }
 
 // void tombol::setBip(bool f)
@@ -32,26 +31,29 @@ uint8_t joyPad::GetDirection()
 }
 uint8_t joyPad::GetKlick()
 {
-    return jos_prev.posy;
+    uint8_t ps = jos.possw;
+    jos.possw = 1;
+    return ps;
 }
 
 void joyPad::Run()
 {
     unsigned long curMills = millis();
 
-    // //=====BIP================================
-    // if ((curMills - prevMillsBip) >= BIP_DELAY && bipEn)
-    // {
-    //     prevMillsBip = curMills;
-    //     setBip(false);
-    // }
+    //=====SWITCH================================
+    if ((curMills - prevMillsBip) >= SW_DELAY)
+    {
+        jos.possw = digitalRead(PIN_BTN1_S);
+        prevMillsSW = curMills;
+    }
 
     //======TOMBOL============================
     if ((curMills - prevMills) >= TOMBOL_DELAY)
     {
         getJoy();
+
         // Serial.printf("x:%d, y:%d s:%d\n", jos.posx, jos.posy, jos.possw);
-        jos_prev.possw = jos.possw;
+        // jos_prev.possw = jos.possw;
         jos_prev.posx = jos.posx;
         jos_prev.posy = jos.posy;
 

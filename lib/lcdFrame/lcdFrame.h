@@ -8,6 +8,8 @@
 
 #define FC 100
 
+#define MAX_HAL 10
+
 struct modelGrafik
 {
     String jenis;
@@ -18,11 +20,17 @@ struct modelText
     String value;
     uint8_t x, y;
     uint8_t idfont;
+    bool kursonEn;
+    bool kursonPos;
+    uint8_t ExcSts; // 1= goto page, 2 = exc function, 0 noting
+    uint8_t halExc; // id halaman yang di eksekusi jika excsts = 1;
+    String ExcName; // nama fungsi yang akan dieksekusi;
 };
 struct halaman
 {
-    modelGrafik ModelGrf[50];
-    modelText ModelTxt[50];
+    modelGrafik ModelGrf[MAX_HAL];
+    modelText ModelTxt[MAX_HAL];
+    modelText ModelTxtMenu[MAX_HAL];
 };
 
 class lcdFrame
@@ -32,14 +40,27 @@ public:
     void Begin();
     void Run();
     void Add();
+    void KursonNext();
+    void KursonPrev();
+    void GoToPageSelect();
 
 private:
     void setText(int, int, uint8_t, uint8_t, String);
+    void setText(int, int, uint8_t, uint8_t, String, bool);
+    void setText(int, int, uint8_t, uint8_t, String, bool, uint8_t, uint8_t, String);
+    void setText(int, modelText);
+
+    void setTextMenu(int, modelText);
+
     void setGrafikFrame(int hal, uint8_t x, uint8_t y, uint8_t w, uint8_t h);
     void setGrafikGaris(int, uint8_t, uint8_t, uint8_t, uint8_t);
     void setGrafikLogo0(int, uint8_t, uint8_t, uint8_t, uint8_t);
 
     void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4]);
+    void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4][2]);
+    void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, modelText menu[4]);
+    void setMenu(int hal, modelText menu[4]);
+    void setMenu(int hal, const modelText menu[4]);
     void setCurson(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4]);
 
     unsigned long prevMills;
@@ -47,8 +68,11 @@ private:
     int a = 1;
     halaman Halaman[20];
     int hal;
-    int countGrf[50];
-    int countTxt[50];
+    int countGrf[MAX_HAL];
+    int countTxt[MAX_HAL];
+    int countTxtMenu[MAX_HAL];
+
+    int kursonCount = 0;
 };
 static const unsigned char logo0[] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,

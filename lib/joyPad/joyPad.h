@@ -41,7 +41,7 @@
 #define PIN_BIP 10
 
 #define TOMBOL_DELAY 500
-#define BIP_DELAY 100
+#define SW_DELAY 400
 
 #define BIP_ON LOW
 #define BIP_OFF HIGH
@@ -67,7 +67,8 @@ private:
     joystic jos_prev;
     // 1 = up, 2 up right, 3 = right, 4 = down right, 5 = down , 6 = down left, 7 = left, 8 = left up
     uint8_t posisi;
-    long prevMills, prevMillsBip;
+    long prevMills, prevMillsBip, prevMillsSW;
+    bool getSwEn = true;
 };
 
 #endif
