@@ -18,7 +18,8 @@ struct modelGrafik
 struct modelText
 {
     String value;
-    uint8_t x, y;
+    uint8_t x;
+    uint8_t y;
     uint8_t idfont;
     bool kursonEn;
     bool kursonPos;
@@ -47,7 +48,7 @@ public:
 private:
     void setText(int, int, uint8_t, uint8_t, String);
     void setText(int, int, uint8_t, uint8_t, String, bool);
-    void setText(int, int, uint8_t, uint8_t, String, bool, uint8_t, uint8_t, String);
+    // void setText(int, int, uint8_t, uint8_t, String, bool, uint8_t, uint8_t, String);
     void setText(int, modelText);
 
     void setTextMenu(int, modelText);
@@ -57,7 +58,7 @@ private:
     void setGrafikLogo0(int, uint8_t, uint8_t, uint8_t, uint8_t);
 
     void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4]);
-    void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4][2]);
+    // void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4][2]);
     void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, modelText menu[4]);
     void setMenu(int hal, modelText menu[4]);
     void setMenu(int hal, const modelText menu[4]);

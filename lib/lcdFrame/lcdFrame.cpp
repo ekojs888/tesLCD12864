@@ -162,23 +162,23 @@ void lcdFrame::setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu
         setText(hal, 1, x, numy, menu[a], true);
     }
 }
-void lcdFrame::setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4][2])
-{
-    // uint8_t numx = x;
-    uint8_t numy = y;
-    for (uint8_t a = 0; a < 4; a++)
-    {
-        numy += spasi;
-        if (menu[a][1] != "")
-        {
-            setText(hal, 1, x, numy, menu[a][0], true, 1, 1, "");
-        }
-        else
-        {
-            setText(hal, 1, x, numy, menu[a][0], true);
-        }
-    }
-}
+// void lcdFrame::setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4][2])
+// {
+//     // uint8_t numx = x;
+//     uint8_t numy = y;
+//     for (uint8_t a = 0; a < 4; a++)
+//     {
+//         numy += spasi;
+//         if (menu[a][1] != "")
+//         {
+//             setText(hal, 1, x, numy, menu[a][0], true, 1, 1, "");
+//         }
+//         else
+//         {
+//             setText(hal, 1, x, numy, menu[a][0], true);
+//         }
+//     }
+// }
 void lcdFrame::setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, modelText menu[4])
 {
     // uint8_t numx = x;
@@ -224,18 +224,18 @@ void lcdFrame::setText(int hal, int idfont, uint8_t x, uint8_t y, String val, bo
     Halaman[hal].ModelTxt[countTxt[hal]].kursonEn = kursonEn;
     countTxt[hal] = countTxt[hal] + 1;
 }
-void lcdFrame::setText(int hal, int idfont, uint8_t x, uint8_t y, String val, bool kursonEn, uint8_t excsts, uint8_t halexc, String f)
-{
-    Halaman[hal].ModelTxt[countTxt[hal]].idfont = idfont;
-    Halaman[hal].ModelTxt[countTxt[hal]].x = x;
-    Halaman[hal].ModelTxt[countTxt[hal]].y = y;
-    Halaman[hal].ModelTxt[countTxt[hal]].value = val;
-    Halaman[hal].ModelTxt[countTxt[hal]].kursonEn = kursonEn;
-    Halaman[hal].ModelTxt[countTxt[hal]].ExcSts = excsts;
-    Halaman[hal].ModelTxt[countTxt[hal]].halExc = halexc;
-    Halaman[hal].ModelTxt[countTxt[hal]].ExcName = f;
-    countTxt[hal] = countTxt[hal] + 1;
-}
+// void lcdFrame::setText(int hal, int idfont, uint8_t x, uint8_t y, String val, bool kursonEn, uint8_t excsts, uint8_t halexc, String f)
+// {
+//     Halaman[hal].ModelTxt[countTxt[hal]].idfont = idfont;
+//     Halaman[hal].ModelTxt[countTxt[hal]].x = x;
+//     Halaman[hal].ModelTxt[countTxt[hal]].y = y;
+//     Halaman[hal].ModelTxt[countTxt[hal]].value = val;
+//     Halaman[hal].ModelTxt[countTxt[hal]].kursonEn = kursonEn;
+//     Halaman[hal].ModelTxt[countTxt[hal]].ExcSts = excsts;
+//     Halaman[hal].ModelTxt[countTxt[hal]].halExc = halexc;
+//     Halaman[hal].ModelTxt[countTxt[hal]].ExcName = f;
+//     countTxt[hal] = countTxt[hal] + 1;
+// }
 void lcdFrame::setText(int hal, modelText mt)
 {
     Halaman[hal].ModelTxt[countTxt[hal]] = mt;
