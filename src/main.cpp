@@ -18,6 +18,46 @@ void setup(void)
 
     // Framex.SetSubValue(1, 7, 15, "Volt : 10", 0);
 
+    Framex.SetPage(0, {
+                          {
+                              {{"Menu", 10, 61, 1}, true, false, 1, 1},
+                          },
+                          {
+                              //   {"Menu", 2, 9, 1},
+                          },
+                          {
+                              {"garis", 0, 10, 128, 10},
+                              {"logo0", 64, 0, 64, 64},
+                          },
+                      });
+    Framex.SetPage(1, {
+                          {
+                              {{"ATS", 10, 22, 1}, true, false, 1, 2},
+                              {{"PH", 10, 35, 1}, true, false, 1, 0},
+                              {{"PPM", 10, 48, 1}, true, false, 1, 1},
+                              {{"Kembali", 10, 61, 1}, true, false, 1, 0},
+                          },
+                          {
+                              {"Menu", 2, 9, 1},
+                          },
+                          {
+                              {"garis", 0, 10, 128, 10},
+                          },
+                      });
+    Framex.SetPage(2, {
+                          {
+                              {{"ON", 10, 22, 1}, true, false, 2, 1},
+                              {{"PLN", 10, 35, 1}, true, false, 2, 2},
+                              {{"Kembali", 10, 48, 1}, true, false, 1, 1},
+                          },
+                          {
+                              {"ATS", 2, 9, 1},
+                          },
+                          {
+                              {"garis", 0, 10, 128, 10},
+                          },
+                      });
+
     delay(1000);
 
     // u8g2.clearBuffer();
@@ -80,17 +120,16 @@ void loop(void)
     uint8_t t = Tombol.GetDirection();
     if (t == 1)
     {
-        Framex.KursonPrev();
+        Framex.SetPrevSelect();
     }
     else if (t == 5)
     {
-        Framex.KursonNext();
+        Framex.SetNextSelect();
     }
 
     if (!Tombol.GetKlick())
     {
-        Framex.GoToPageSelect();
-        Framex.Out = Framex.getOutPutMenu();
+        Framex.SetKlikMenu();
 
         Serial.printf("h: %d, m: %d, o: %d, e: %d \n",
                       Framex.Out.Hal,
@@ -101,12 +140,12 @@ void loop(void)
         {
             if (s_ups == 0)
             {
-                Framex.SetMenuNameSelect("Ups");
+                Framex.SetRenameMenu("Ups");
                 s_ups = 1;
             }
             else
             {
-                Framex.SetMenuNameSelect("Pln");
+                Framex.SetRenameMenu("Pln");
                 s_ups = 0;
             }
         }

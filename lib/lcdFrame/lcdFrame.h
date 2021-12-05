@@ -1,38 +1,44 @@
-#ifndef __LCDFRAME__
-#define __LCDFRAME__
+#pragma once
 
 #include <Arduino.h>
 #include <U8g2lib.h>
 
-// #include <joyPad.h>
-
 #define FC 100
 
-#define MAX_HAL 10
+#define TXT_MAX_PER_HAL 4
+#define MENU_MAX_PER_HAL 4
+#define GRAFIK_MAX_PER_HAL 2
+#define HAL_MAX 20
 
-struct modelGrafik
+//===================new===========
+struct ModelText2
+{
+    String value;
+    uint8_t x, y;
+    uint8_t idFont;
+};
+struct ModelMenu
+{
+    ModelText2 ModelTxt;
+    bool KursonEn;
+    bool kursonPos;
+    uint8_t ExcSts; // 1= goto page, 2 = exc function, 0 noting
+    uint8_t halExc; // id halaman exc if ExcSts = 1
+};
+
+struct ModelGrafik
 {
     String jenis;
     u8g2_uint_t x, y, w, h;
 };
-struct modelText
+
+struct Page
 {
-    String value;
-    uint8_t x;
-    uint8_t y;
-    uint8_t idfont;
-    bool kursonEn;
-    bool kursonPos;
-    uint8_t ExcSts; // 1= goto page, 2 = exc function, 0 noting
-    uint8_t halExc; // id halaman yang di eksekusi jika excsts = 1;
-    String ExcName; // nama fungsi yang akan dieksekusi;
+    ModelMenu Menu[MENU_MAX_PER_HAL];
+    ModelText2 Txt[TXT_MAX_PER_HAL];
+    ModelGrafik Grf[GRAFIK_MAX_PER_HAL];
 };
-struct halaman
-{
-    modelGrafik ModelGrf[MAX_HAL];
-    modelText ModelTxt[MAX_HAL];
-    modelText ModelTxtMenu[MAX_HAL];
-};
+
 struct outPutSelect
 {
     int Hal;
@@ -40,84 +46,39 @@ struct outPutSelect
     uint8_t ExcSts;
     uint8_t idProg;
 };
+//====================end new=============
+
 class lcdFrame
 {
 public:
     lcdFrame(U8G2 &);
     void Begin();
     void Run();
-    void Add();
-    void KursonNext();
-    void KursonPrev();
-    void GoToPageSelect();
-    outPutSelect getOutPutMenu();
+    //=======new=============
+    void SetPage(int p, Page model);
+    void SetNextSelect();
+    void SetPrevSelect();
+    void SetRenameMenu(String val);
+    void SetKlikMenu();
     outPutSelect Out;
-    void SetMenuNameSelect(String val);
+    //=======================
 
 private:
-    void setText(int, int, uint8_t, uint8_t, String);
-    void setText(int, int, uint8_t, uint8_t, String, bool);
-    // void setText(int, int, uint8_t, uint8_t, String, bool, uint8_t, uint8_t, String);
-    void setText(int, modelText);
-
-    void setTextMenu(int, modelText);
-
-    void setGrafikFrame(int hal, uint8_t x, uint8_t y, uint8_t w, uint8_t h);
-    void setGrafikGaris(int, uint8_t, uint8_t, uint8_t, uint8_t);
-    void setGrafikLogo0(int, uint8_t, uint8_t, uint8_t, uint8_t);
-
-    void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4]);
-    // void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4][2]);
-    void setMenu(int hal, uint8_t x, uint8_t y, uint8_t spasi, modelText menu[4]);
-    void setMenu(int hal, modelText menu[4]);
-    void setMenu(int hal, const modelText menu[4]);
-    void setCurson(int hal, uint8_t x, uint8_t y, uint8_t spasi, String menu[4]);
-
-    // status
-    void setStatus(String sts);
-
-    void FrameMain();
-    void FrameSetting();
-    void FrameMenu();
-    void FrameSetATS();
-
     unsigned long prevMills;
     U8G2 ugs;
-    int a = 1;
-    halaman Halaman[20];
-    int hal;
-    int countGrf[MAX_HAL];
-    int countTxt[MAX_HAL];
-    int countTxtMenu[MAX_HAL];
-
-    int kursonCount = -1;
-
-    String Status;
-
-    uint8_t tessv;
-    void tess();
-    void setChangeValue(String val);
-};
-static const modelText menua[4] PROGMEM = {
-    {"Menu", 10, 61, 1, true, false, 1, 1, ""},
-};
-static const modelText menuUt[4] PROGMEM = {
-    {"Setting", 10, 22, 1, true, false, 1, 2, ""},
-    {"Menu Utama", 10, 35, 1, true, false, 1, 0, ""},
+    //=======new============
+    int curPage = 0;
+    int coTxt[HAL_MAX];
+    int coGrf[HAL_MAX];
+    int coMnu[HAL_MAX];
+    Page Halaman2[HAL_MAX];
+    int selectPosisi = 0;
+    void SelectNext();
+    void SelectPrev();
+    void SelectKlik();
+    //======================
 };
 
-static const modelText menuSetting[4] PROGMEM = {
-    {"Pompa", 10, 22, 1, true, false, 0, 1, ""},
-    {"ATS", 10, 35, 1, true, false, 1, 3, ""},
-    {"Kembali", 10, 48, 1, true, false, 1, 1, ""},
-};
-
-static const modelText menuAts[4] PROGMEM = {
-    {"On/Off", 10, 22, 1, true, false, 2, 1, ""},
-    {"Ups/Pln", 10, 35, 1, true, false, 2, 2, ""},
-    {"Back", 10, 48, 1, true, false, 1, 2, ""},
-    // {"PLN Switch", 10, 61, 1, true, false, 2, 1, ""},
-};
 static const unsigned char logo0[] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -162,4 +123,3 @@ static const unsigned char logo0[] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-#endif
