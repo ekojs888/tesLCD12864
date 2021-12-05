@@ -16,26 +16,26 @@ void setup(void)
     Tombol.Begin();
     Framex.Begin();
 
-    // Framex.SetSubValue(1, 7, 15, "Volt : 10", 0);
-
+    // Home Page ===
     Framex.SetPage(0, {
                           {
                               {{"Menu", 10, 61, 1}, true, false, 1, 1},
                           },
                           {
-                              //   {"Menu", 2, 9, 1},
+                              {"ATS RAVIN V.001", 2, 9, 1},
                           },
                           {
                               {"garis", 0, 10, 128, 10},
-                              {"logo0", 64, 0, 64, 64},
+                              {"logo0", 64, 11, 64, 64},
                           },
                       });
+    // Menu Page ====
     Framex.SetPage(1, {
                           {
                               {{"ATS", 10, 22, 1}, true, false, 1, 2},
                               {{"PH", 10, 35, 1}, true, false, 1, 0},
                               {{"PPM", 10, 48, 1}, true, false, 1, 1},
-                              {{"Kembali", 10, 61, 1}, true, false, 1, 0},
+                              {{"Back", 10, 61, 1}, true, false, 1, 0},
                           },
                           {
                               {"Menu", 2, 9, 1},
@@ -44,11 +44,14 @@ void setup(void)
                               {"garis", 0, 10, 128, 10},
                           },
                       });
+
+    // ATS PAGE====
     Framex.SetPage(2, {
                           {
                               {{"ON", 10, 22, 1}, true, false, 2, 1},
                               {{"PLN", 10, 35, 1}, true, false, 2, 2},
-                              {{"Kembali", 10, 48, 1}, true, false, 1, 1},
+                              {{"Back", 10, 48, 1}, true, false, 1, 1},
+                              {{"Home", 10, 61, 1}, true, false, 1, 0},
                           },
                           {
                               {"ATS", 2, 9, 1},
@@ -59,60 +62,14 @@ void setup(void)
                       });
 
     delay(1000);
-
-    // u8g2.clearBuffer();
-    // u8g2.drawFrame(0, 0, 128, 64);
-    // u8g2.drawFrame(5, 5, 50, 12);
-    // u8g2.setFont(u8g2_font_helvR08_tr);
-    // u8g2.setCursor(7, 15);
-    // u8g2.print("Volt : 12");
-    // u8g2.sendBuffer();
-
-    // delay(5000);
-
-    // u8g2.clearBuffer();
-    // u8g2.setFont(u8g2_font_ncenB14_tr);
-    // u8g2.drawStr(0, 20, "Hello World!");
-    // u8g2.sendBuffer();
-
-    // delay(2000);
-
-    // u8g2.clearBuffer();
-    // u8g2.setFont(u8g2_font_ncenB14_tr);
-    // u8g2.drawStr(0, 20, "Ika....");
-    // u8g2.sendBuffer();
-
-    // delay(1000);
-
-    // u8g2.clearBuffer();
-
-    // u8g2.setFont(u8g2_font_ncenB14_tr);
-    // u8g2.drawStr(0, 20, "Ravin....");
-    // u8g2.drawStr(0, 40, "Nila....");
-    // u8g2.sendBuffer();
-
-    // delay(1000);
-    // u8g2.clearBuffer();
 }
 
-// void WriteVolume(uint8_t v)
-// {
-//     String ab = "Volt : ";
-//     char tes_str[3];
-//     strcpy(tes_str, u8x8_u8toa(v, 2));
-//     u8g2.clearBuffer();
-//     u8g2.drawFrame(0, 0, 128, 64);
-//     u8g2.drawFrame(5, 5, 50, 12);
-//     u8g2.setFont(u8g2_font_helvR08_tr);
-//     u8g2.setCursor(7, 15);
-//     u8g2.print(ab);
-//     u8g2.print(tes_str);
-//     u8g2.sendBuffer();
-// }
-
-// uint8_t m = 24;
-// uint8_t tes = 0;
-uint8_t s_ups = 0;
+struct menus
+{
+    uint8_t ATS_ONOFF;
+    uint8_t ATS_PLNUPS;
+};
+menus M;
 void loop(void)
 {
     Tombol.Run();
@@ -136,33 +93,38 @@ void loop(void)
                       Framex.Out.Menu,
                       Framex.Out.ExcSts,
                       Framex.Out.idProg);
-        if (Framex.Out.idProg == 2 && Framex.Out.ExcSts == 2)
+        if (Framex.Out.ExcSts == 2)
         {
-            if (s_ups == 0)
+            switch (Framex.Out.idProg)
             {
-                Framex.SetRenameMenu("Ups");
-                s_ups = 1;
-            }
-            else
-            {
-                Framex.SetRenameMenu("Pln");
-                s_ups = 0;
+            case 1: // onoff ATS
+                if (M.ATS_ONOFF == 0)
+                {
+                    Framex.SetRenameMenu("OFF");
+                    M.ATS_ONOFF = 1;
+                }
+                else
+                {
+                    Framex.SetRenameMenu("ON");
+                    M.ATS_ONOFF = 0;
+                }
+                break;
+
+            case 2: // ups or pln ATS
+                if (M.ATS_PLNUPS == 0)
+                {
+                    Framex.SetRenameMenu("UPS");
+                    M.ATS_PLNUPS = 1;
+                }
+                else
+                {
+                    Framex.SetRenameMenu("PLN");
+                    M.ATS_PLNUPS = 0;
+                }
+                break;
+            default:
+                break;
             }
         }
     }
-
-    // char m_str[3];
-    // strcpy(m_str, u8x8_u8toa(m, 2)); /* convert m to a string with two digits */
-    // u8g2.firstPage();
-    // do
-    // {
-    //     u8g2.setFont(u8g2_font_logisoso62_tn);
-    //     u8g2.drawStr(0, 63, "8");
-    //     u8g2.drawStr(33, 63, ":");
-    //     u8g2.drawStr(50, 63, m_str);
-    // } while (u8g2.nextPage());
-    // delay(1000);
-    // m++;
-    // if (m == 60)
-    //     m = 0;
 }

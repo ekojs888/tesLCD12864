@@ -162,6 +162,7 @@ void lcdFrame::Run()
                     ugs.drawXBMP(mgrf.x, mgrf.y, mgrf.w, mgrf.h, logo0);
                 }
             }
+
             //== menu ====
             for (int a = 0; a < coMnu[curPage]; a++)
             {
