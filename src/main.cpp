@@ -19,7 +19,7 @@ void setup(void)
     // Home Page ===
     Framex.SetPage(0, {
                           {
-                              {{"Menu", 10, 61, 1}, true, false, 1, 1},
+                              {{"Menu", 10, 61, 1}, true, true, 1, 1},
                           },
                           {
                               {"ATS RAVIN V.001", 2, 9, 1},
@@ -32,7 +32,7 @@ void setup(void)
     // Menu Page ====
     Framex.SetPage(1, {
                           {
-                              {{"ATS", 10, 22, 1}, true, false, 1, 2},
+                              {{"ATS", 10, 22, 1}, true, true, 1, 2},
                               {{"PH", 10, 35, 1}, true, false, 1, 0},
                               {{"PPM", 10, 48, 1}, true, false, 1, 1},
                               {{"Back", 10, 61, 1}, true, false, 1, 0},
@@ -48,7 +48,7 @@ void setup(void)
     // ATS PAGE====
     Framex.SetPage(2, {
                           {
-                              {{"ON", 10, 22, 1}, true, false, 2, 1},
+                              {{"ON", 10, 22, 1}, true, true, 2, 1},
                               {{"PLN", 10, 35, 1}, true, false, 2, 2},
                               {{"Back", 10, 48, 1}, true, false, 1, 1},
                               {{"Home", 10, 61, 1}, true, false, 1, 0},
