@@ -72,6 +72,7 @@ void setup(void)
 
 // uint8_t m = 24;
 // uint8_t tes = 0;
+uint8_t s_ups = 0;
 void loop(void)
 {
     Tombol.Run();
@@ -89,7 +90,26 @@ void loop(void)
     if (!Tombol.GetKlick())
     {
         Framex.GoToPageSelect();
-        Serial.println("klik:");
+        Framex.Out = Framex.getOutPutMenu();
+
+        Serial.printf("h: %d, m: %d, o: %d, e: %d \n",
+                      Framex.Out.Hal,
+                      Framex.Out.Menu,
+                      Framex.Out.ExcSts,
+                      Framex.Out.idProg);
+        if (Framex.Out.idProg == 2 && Framex.Out.ExcSts == 2)
+        {
+            if (s_ups == 0)
+            {
+                Framex.SetMenuNameSelect("Ups");
+                s_ups = 1;
+            }
+            else
+            {
+                Framex.SetMenuNameSelect("Pln");
+                s_ups = 0;
+            }
+        }
     }
 
     // char m_str[3];

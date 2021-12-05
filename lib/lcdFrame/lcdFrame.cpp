@@ -57,13 +57,32 @@ void lcdFrame::FrameSetATS()
 
 void lcdFrame::tess()
 {
-    Serial.println("hallow dari tes...");
-    setChangeValue("xxx");
+    // if (tessv == 0)
+    // {
+    //     setChangeValue("On");
+    //     tessv = 1;
+    // }
+    // else
+    // {
+    //     setChangeValue("Off");
+    //     tessv = 0;
+    // }
+    // Serial.println("hallow dari tes...");
+    // setChangeValue("xxx");
+}
+
+outPutSelect lcdFrame::getOutPutMenu()
+{
+    return Out;
+}
+void lcdFrame::SetMenuNameSelect(String val)
+{
+    setChangeValue(val);
 }
 //====================func==========================================
 void lcdFrame::setChangeValue(String val)
 {
-    Halaman[hal].ModelTxtMenu[kursonCount].value = val;
+    Halaman[hal].ModelTxtMenu[Out.Menu].value = val;
 }
 void lcdFrame::setStatus(String sts)
 {
@@ -83,17 +102,26 @@ void lcdFrame::GoToPageSelect()
             }
             else if (Halaman[hal].ModelTxtMenu[a].ExcSts == 2)
             {
-                Serial.printf("no 2 : %d \n", Halaman[hal].ModelTxtMenu[a].halExc);
+                // Serial.printf("no 2 : %d \n", Halaman[hal].ModelTxtMenu[a].halExc);
                 if (Halaman[hal].ModelTxtMenu[a].halExc == 1)
                 {
                     tess();
                 }
+
                 break;
             }
         }
     }
-    kursonCount = -1;
-    Serial.printf("hal: %d \n", hal);
+
+    // back value menu , ambil data koordinat menu
+    Out.Menu = kursonCount;
+    Out.ExcSts = Halaman[hal].ModelTxtMenu[kursonCount].ExcSts;
+    Out.Hal = hal;
+    Out.idProg = Halaman[hal].ModelTxtMenu[kursonCount].halExc;
+    //====
+
+    // kursonCount = -1;
+    // Serial.printf("hal: %d \n", hal);
 }
 void lcdFrame::KursonNext()
 {
@@ -120,10 +148,10 @@ void lcdFrame::KursonNext()
             Halaman[hal].ModelTxtMenu[a].kursonPos = false;
         }
     }
-    String myString = String(kursonCount);
-    myString = "k:" + myString + " t:" + String((countTxtMenu[hal] - 1));
-    setStatus(myString);
-    Serial.printf("kursonp: %d, kursonc: %d \n", kursonCount, (countTxtMenu[hal] - 1));
+    // String myString = String(kursonCount);
+    // myString = "k:" + myString + " t:" + String((countTxtMenu[hal] - 1));
+    // setStatus(myString);
+    // Serial.printf("kursonp: %d, kursonc: %d \n", kursonCount, (countTxtMenu[hal] - 1));
 }
 void lcdFrame::KursonPrev()
 {

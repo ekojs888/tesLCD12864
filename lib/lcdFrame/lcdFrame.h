@@ -33,7 +33,13 @@ struct halaman
     modelText ModelTxt[MAX_HAL];
     modelText ModelTxtMenu[MAX_HAL];
 };
-
+struct outPutSelect
+{
+    int Hal;
+    int Menu;
+    uint8_t ExcSts;
+    uint8_t idProg;
+};
 class lcdFrame
 {
 public:
@@ -44,6 +50,9 @@ public:
     void KursonNext();
     void KursonPrev();
     void GoToPageSelect();
+    outPutSelect getOutPutMenu();
+    outPutSelect Out;
+    void SetMenuNameSelect(String val);
 
 private:
     void setText(int, int, uint8_t, uint8_t, String);
@@ -85,6 +94,7 @@ private:
 
     String Status;
 
+    uint8_t tessv;
     void tess();
     void setChangeValue(String val);
 };
@@ -104,7 +114,7 @@ static const modelText menuSetting[4] PROGMEM = {
 
 static const modelText menuAts[4] PROGMEM = {
     {"On/Off", 10, 22, 1, true, false, 2, 1, ""},
-    {"Ups/Pln", 10, 35, 1, true, false, 2, 1, ""},
+    {"Ups/Pln", 10, 35, 1, true, false, 2, 2, ""},
     {"Back", 10, 48, 1, true, false, 1, 2, ""},
     // {"PLN Switch", 10, 61, 1, true, false, 2, 1, ""},
 };
