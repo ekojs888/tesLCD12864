@@ -170,13 +170,14 @@ void lcdFrame::Run()
                 switch (menu.ModelTxt.idFont)
                 {
                 case 1:
-                    ugs.setFont(u8g2_font_helvR08_tf);
+                    ugs.setFont(u8g2_font_helvR08_tr);
                     break;
 
                 default:
                     break;
                 }
-
+                // ugs.setFontMode(1);
+                // ugs.setDrawColor(1);
                 ugs.setCursor(menu.ModelTxt.x, menu.ModelTxt.y);
                 ugs.print(menu.ModelTxt.value);
             }
