@@ -20,7 +20,7 @@
 #ifdef _BOARD_UNO_
 #define PIN_BTN1_X A1
 #define PIN_BTN1_Y A2
-#define PIN_BTN1_D A3
+#define PIN_BTN1_S A3
 
 // adc value position
 #define POS_MOVE_NO 1800

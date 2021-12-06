@@ -88,11 +88,23 @@ void loop(void)
     {
         Framex.SetKlikMenu();
 
+#ifdef _BOARD_ESP32_
         Serial.printf("h: %d, m: %d, o: %d, e: %d \n",
                       Framex.Out.Hal,
                       Framex.Out.Menu,
                       Framex.Out.ExcSts,
                       Framex.Out.idProg);
+#endif
+#ifdef _BOARD_UNO_
+        Serial.print("h: ");
+        Serial.print(Framex.Out.Hal);
+        Serial.print("m: ");
+        Serial.print(Framex.Out.Menu);
+        Serial.print("o: ");
+        Serial.print(Framex.Out.ExcSts);
+        Serial.print("e: ");
+        Serial.print(Framex.Out.idProg);
+#endif
         if (Framex.Out.ExcSts == 2)
         {
             switch (Framex.Out.idProg)
